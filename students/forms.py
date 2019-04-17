@@ -4,7 +4,7 @@ from students.models import UserDetail
 class VoteForm(forms.ModelForm):
     class Meta:
         model = UserDetail
-        fields = ('Mr_VSIT', 'Ms_VSIT', 'Popular', 'vote4') 
+        fields = ('Mr_VSIT', 'Ms_VSIT') 
 
     def save(self, user=None):
         user_detail = super(VoteForm, self).save(commit=False)
