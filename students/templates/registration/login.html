@@ -1,0 +1,42 @@
+{% extends "registration/base.html" %}
+{% block content %}
+
+
+  {% if user.is_authenticated %}
+  <form class="login">
+  <p class="title">Welcome: {{user.username}}</p>
+  <div class="row">
+      <div class="column lfl">
+          <a class="btna" href="vote">
+              <div class="btn">Vote</div>
+            </a>
+      </div>
+      <div class="column lfc">
+          <a class="btna" href="logout">
+              <div class="btn">Logout</div>
+            </a>
+      </div>
+    </div>
+  </form>
+  {% else %} 
+  <form class="login" action="/login" method="post">
+    {% csrf_token %}
+  <p class="title">Log in</p>
+  <input name="username" type="text" placeholder="Enrollment Number" autofocus="">
+  <i class="fa fa-user"></i>
+  <input name="password" type="password" placeholder="Password">
+  <i class="fa fa-key"></i>
+  <button type="submit">
+  <span class="state">Log in</span>
+  </button>
+  {% if form.subject.errors %}
+    <ol>
+    {% for error in form.subject.errors %}
+        <li><strong>{{ error|escape }}</strong></li>
+    {% endfor %}
+    </ol>
+  {% endif %}
+  </form>
+  {% endif %}
+
+  {% endblock %}
