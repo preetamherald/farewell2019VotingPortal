@@ -10,12 +10,40 @@ from students.models import UserDetail
 from django.shortcuts import render_to_response
 from django.db import IntegrityError
 from django.shortcuts import redirect
+from collections import Counter
 
 
+def whoswining(request):
+
+    mr_vsit = UserDetail.objects.all().values_list('Mr_VSIT', flat=True) 
+    ms_vsit = UserDetail.objects.all().values_list('Ms_VSIT', flat=True) 
+    mr_vsit_winner = []
+    ms_vsit_winner = []
+
+    for x in mr_vsit:
+        f_name = (User.objects.all().filter(pk=x).values_list('first_name', flat=True))[0]
+        l_name = (User.objects.all().filter(pk=x).values_list('last_name', flat=True))[0]
+        name = f_name + " " + l_name
+        mr_vsit_winner.append(name)
+
+    for x in ms_vsit:
+        f_name = (User.objects.all().filter(pk=x).values_list('first_name', flat=True))[0]
+        l_name = (User.objects.all().filter(pk=x).values_list('last_name', flat=True))[0]
+        name = f_name + " " + l_name
+        ms_vsit_winner.append(name)
+
+    winner_m =Counter(mr_vsit_winner)
+    winner_f =Counter(ms_vsit_winner)
+
+    context = {
+        "Mr_VSIT": winner_m.most_common(3),
+        "Ms_VSIT": winner_f.most_common(3),
+    }
+
+    return render(request, 'registration/result.html', context)
 
 def home(request):
     return render(request, 'registration/login.html')
-    
 
 def loginf(request):
     username = request.POST['username']

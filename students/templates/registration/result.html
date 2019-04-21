@@ -1,0 +1,38 @@
+{% extends "registration/base.html" %}
+{% block content %}
+
+<form method="post" class='login'>
+    <p class="title">Mr. Vsit</p>
+    <table style="width:100%; align:left;">
+    <tr> 
+    <th align="left">Name</th>
+    <th align="left">Votes</th>
+    </tr>
+    {% for winner in Mr_VSIT %}
+        <tr>
+        {% for x in winner %}
+        <td>{{x}}</td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+    <br>
+    
+    <p class="title">Ms. Vsit</p>
+    <table style="width:100%; align:left;">
+    <tr> 
+    <th align="left">Name</th>
+    <th align="left">Votes</th>
+    </tr>
+    {% for winner in Ms_VSIT %}
+        <tr>
+        {% for x in winner %}
+        <td>{{x}}</td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+</form>
+
+
+{% endblock %}
