@@ -11,7 +11,20 @@ from django.shortcuts import render_to_response
 from django.db import IntegrityError
 from django.shortcuts import redirect
 from collections import Counter
+import csv
 
+def export_users_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="users.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Name', 'Mr. VSIT', 'Ms. VSIT'])
+
+    users = UserDetail.objects.all().values_list('name', 'Mr_VSIT', 'Ms_VSIT')
+    for user in users:
+        writer.writerow(user)
+
+    return response
 
 def whoswining(request):
 

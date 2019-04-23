@@ -9,9 +9,6 @@ class UserFullnameChoiceField(forms.ModelChoiceField):
 
 class VoteForm(forms.ModelForm):
 
-    Ms_VSIT = UserFullnameChoiceField(queryset = User.objects.all().filter(is_superuser = 'False').order_by('first_name','last_name'))
-    Mr_VSIT = UserFullnameChoiceField(queryset = User.objects.all().filter(is_superuser = 'False').order_by('first_name','last_name'))
-
     class Meta:
         model = UserDetail
         fields = ('Mr_VSIT', 'Ms_VSIT') 
@@ -20,6 +17,11 @@ class VoteForm(forms.ModelForm):
         user_detail = super(VoteForm, self).save(commit=False)
         if user:
             user_detail.user = user
+            f_name = (User.objects.all().filter(username=user).values_list('first_name', flat=True))[0]
+            l_name = (User.objects.all().filter(username=user).values_list('last_name', flat=True))[0]
+            name = f_name + " " + l_name
+            user_detail.name = name
             user_detail.voted = True
         user_detail.save()
         return user_detail
+1
